@@ -11,6 +11,7 @@ DECLARE
     random_index2    INT;
     temp_participant VARCHAR2(30);
     temp_email       VARCHAR2(50);
+    creator          VARCHAR2(50) := 'Your Name';
 BEGIN
     -- Declare variables to store the names,emails of the participants
     participant(1) := 'Person 1'; p_email(1) := 'p1@company.gr';
@@ -58,7 +59,9 @@ BEGIN
                                  || utl_tcp.crlf
                                  || 'You will be buying a gift for '
                                  || participants(i MOD 8 + 1)
-                                 || '.');
+                                 || '.')
+                                 || 'KR'
+                                 || creator;
 
         utl_smtp.close_data(mail_conn);
         utl_smtp.quit(mail_conn);
