@@ -59,9 +59,9 @@ BEGIN
                                  || utl_tcp.crlf
                                  || 'You will be buying a gift for '
                                  || participants(i MOD 8 + 1)
-                                 || '.')
+                                 || '.'
                                  || 'KR'
-                                 || creator;
+                                 || creator);
 
         utl_smtp.close_data(mail_conn);
         utl_smtp.quit(mail_conn);
