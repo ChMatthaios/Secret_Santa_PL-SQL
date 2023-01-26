@@ -53,12 +53,12 @@ BEGIN
                                  || utl_tcp.crlf
                                  || utl_tcp.crlf
                                  || 'Dear '
-                                 || participants(i)
+                                 || participant(i)
                                  || ', '
                                  || utl_tcp.crlf
                                  || utl_tcp.crlf
                                  || 'You will be buying a gift for '
-                                 || participants(i MOD 8 + 1)
+                                 || participant(i MOD 8 + 1)
                                  || '.'
                                  || 'KR'
                                  || creator);
@@ -66,9 +66,9 @@ BEGIN
         utl_smtp.close_data(mail_conn);
         utl_smtp.quit(mail_conn);
         /** OR IF YOU WANT TO KNOW
-        dbms_output.put_line(participants(i)
+        dbms_output.put_line(participant(i)
                              || ' will be buying a gift for '
-                             || participants(i MOD 8 + 1));
+                             || participant(i MOD 8 + 1));
         */
     END LOOP;
 
