@@ -1,17 +1,17 @@
 DECLARE
     -- Declare a table to store the names and email addresses of the participants
     TYPE participants IS
-        TABLE OF VARCHAR2(30) INDEX BY BINARY_INTEGER;
+        TABLE OF VARCHAR2(100) INDEX BY BINARY_INTEGER;
     participant      participants;
     TYPE p_emails IS
-        TABLE OF VARCHAR2(50) INDEX BY BINARY_INTEGER;
+        TABLE OF VARCHAR2(100) INDEX BY BINARY_INTEGER;
     p_email          p_emails;
     -- Declare a variable to store a random index
     random_index1    INT;
     random_index2    INT;
-    temp_participant VARCHAR2(30);
-    temp_email       VARCHAR2(50);
-    creator          VARCHAR2(50) := 'Your Name';
+    temp_participant VARCHAR2(100);
+    temp_email       VARCHAR2(100);
+    creator          VARCHAR2(100) := 'Your Name';
 BEGIN
     -- Declare variables to store the names,emails of the participants
     participant(1) := 'Person 1'; p_email(1) := 'p1@company.gr';
