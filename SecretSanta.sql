@@ -40,7 +40,7 @@ BEGIN
     FOR i IN 1..8 LOOP
     /**
         -- Open a connection to the mail server
-        mail_conn := utl_smtp.open_connection('your_mail_server', 25);
+        mail_conn := utl_smtp.open_connection('your_mail_server', <port number>);
         -- Identify yourself to the mail server
         utl_smtp.helo(mail_conn, 'your_domain');
         -- Set the recipient email address
