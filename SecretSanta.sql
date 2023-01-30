@@ -50,21 +50,21 @@ BEGIN
         utl_smtp.rcpt(mail_conn, recipient);
         utl_smtp.data(mail_conn, 'Subject: Secret Santa Assignment'
                                  || utl_tcp.crlf 
-								 || utl_tcp.crlf
+				 || utl_tcp.crlf
                                  || 'Dear '
                                  || participant(i) 
-								 || ': ' 
-								 || p_email(i)
+				 || ': ' 
+				 || p_email(i)
                                  || ', '
                                  || utl_tcp.crlf 
-								 || utl_tcp.crlf
+				 || utl_tcp.crlf
                                  || 'You will be buying a gift for '
                                  || participant(i MOD 8 + 1) 
-								 || ': ' 
-								 || p_email(i MOD 8 + 1)
+				 || ': ' 
+				 || p_email(i MOD 8 + 1)
                                  || '.'
                                  || utl_tcp.crlf 
-								 || utl_tcp.crlf
+				 || utl_tcp.crlf
                                  || 'Kind regards, '
                                  || utl_tcp.crlf
                                  || creator);
@@ -74,8 +74,8 @@ BEGIN
         dbms_output.put_line(participant(i)
                              || ' will be buying a gift for '
                              || participant(i MOD 8 + 1) 
-							 || ': ' 
-							 || p_email(i MOD 8 + 1));
+			     || ': ' 
+			     || p_email(i MOD 8 + 1));
     END LOOP;
 
 END;
