@@ -22,8 +22,6 @@ BEGIN
     participant(6) := 'Person 6'; p_email(6) := 'p6@company.gr';
     participant(7) := 'Person 7'; p_email(7) := 'p7@company.gr';
     participant(8) := 'Person 8'; p_email(8) := 'p8@company.gr';
-    -- Seed the random number generator
-    dbms_random.seed(0);
 
     -- Shuffle the array of participants
     FOR i IN 1..8 LOOP
