@@ -49,19 +49,16 @@ BEGIN
         utl_smtp.mail(mail_conn, 'secret_santa@your_domain.com');
         utl_smtp.rcpt(mail_conn, recipient);
         utl_smtp.data(mail_conn, 'Subject: Secret Santa Assignment'
-                                 || utl_tcp.crlf
-                                 || utl_tcp.crlf
+                                 || utl_tcp.crlf || utl_tcp.crlf
                                  || 'Dear '
                                  || participant(i)
                                  || ', '
-                                 || utl_tcp.crlf
-                                 || utl_tcp.crlf
+                                 || utl_tcp.crlf || utl_tcp.crlf
                                  || 'You will be buying a gift for '
                                  || participant(i MOD 8 + 1)
                                  || '.'
-                                 || utl_tcp.crlf
-                                 || utl_tcp.crlf
-                                 || 'KR'
+                                 || utl_tcp.crlf || utl_tcp.crlf
+                                 || 'Kind regards,'
                                  || utl_tcp.crlf
                                  || creator);
 
