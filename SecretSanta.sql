@@ -38,6 +38,7 @@ BEGIN
 
     -- Print out the secret Santa assignments
     FOR i IN 1..8 LOOP
+    /**
         -- Open a connection to the mail server
         mail_conn := utl_smtp.open_connection('your_mail_server', 25);
         -- Identify yourself to the mail server
@@ -58,16 +59,18 @@ BEGIN
                                  || 'You will be buying a gift for '
                                  || participant(i MOD 8 + 1)
                                  || '.'
+                                 || utl_tcp.crlf
+                                 || utl_tcp.crlf
                                  || 'KR'
+                                 || utl_tcp.crlf
                                  || creator);
 
         utl_smtp.close_data(mail_conn);
         utl_smtp.quit(mail_conn);
-        /** OR IF YOU WANT TO KNOW
+    */    
         dbms_output.put_line(participant(i)
                              || ' will be buying a gift for '
                              || participant(i MOD 8 + 1));
-        */
     END LOOP;
 
 END;
