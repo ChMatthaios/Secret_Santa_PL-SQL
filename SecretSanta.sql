@@ -38,30 +38,35 @@ BEGIN
 
     -- Print out the secret Santa assignments
     FOR i IN 1..8 LOOP
-    /**
+        /*
         -- Open a connection to the mail server
         mail_conn := utl_smtp.open_connection('your_mail_server', <port number>);
         -- Identify yourself to the mail server
         utl_smtp.helo(mail_conn, 'your_domain');
-        -- Set the recipient email address
+            -- Set the recipient email address
         recipient := p_email(i);
-        -- Send the email
+            -- Send the email
         utl_smtp.mail(mail_conn, 'secret_santa@your_domain.com');
         utl_smtp.rcpt(mail_conn, recipient);
-        utl_smtp.data(mail_conn, 'Subject: Secret Santa Assignment' 
-				 || utl_tcp.crlf     || utl_tcp.crlf
-                                 || 'Dear '          || participant(i)  || ': ' || p_email(i)   || ', '
-				 || utl_tcp.crlf     || utl_tcp.crlf
-                                 || 'You will be buying a gift for '
-                                 || participant(i MOD 8 + 1)  || ': '   || p_email(i MOD 8 + 1) || '.'
-				 || utl_tcp.crlf     || utl_tcp.crlf
-                                 || 'Kind regards, ' || utl_tcp.crlf    || creator);
+        utl_smtp.data(mail_conn, 'Subject: Secret Santa Assignment'
+                              || utl_tcp.crlf || utl_tcp.crlf
+                              || 'Dear '
+                              || participant(i) || ', '
+                              || utl_tcp.crlf || utl_tcp.crlf
+                              || 'You will be buying a gift for '
+                              || participant(i MOD 8 + 1) || '.'
+                              || utl_tcp.crlf || utl_tcp.crlf
+                              || 'Kind regards, '
+                              || utl_tcp.crlf
+                              || creator);
+    
         utl_smtp.close_data(mail_conn);
         utl_smtp.quit(mail_conn);
-    */    
+        */
         dbms_output.put_line(participant(i)
                              || ' will be buying a gift for '
-                             || participant(i MOD 8 + 1) || ': ' || p_email(i MOD 8 + 1));
+                             || participant(i MOD 8 + 1)
+                             || ': '
+                             || p_email(i MOD 8 + 1));
     END LOOP;
-
 END;
