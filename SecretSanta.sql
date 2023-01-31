@@ -14,14 +14,14 @@ DECLARE
     creator          VARCHAR2(100) := 'Your Name';
 BEGIN
     -- Declare variables to store the names,emails of the participants
-    participant(1) := 'Person 1'; p_email(1) := 'p1@company.gr';
-    participant(2) := 'Person 2'; p_email(2) := 'p2@company.gr';
-    participant(3) := 'Person 3'; p_email(3) := 'p3@company.gr';
-    participant(4) := 'Person 4'; p_email(4) := 'p4@company.gr';
-    participant(5) := 'Person 5'; p_email(5) := 'p5@company.gr';
-    participant(6) := 'Person 6'; p_email(6) := 'p6@company.gr';
-    participant(7) := 'Person 7'; p_email(7) := 'p7@company.gr';
-    participant(8) := 'Person 8'; p_email(8) := 'p8@company.gr';
+    participant(1) := 'Person 1'; p_email(1) := 'p1@company.com';
+    participant(2) := 'Person 2'; p_email(2) := 'p2@company.com';
+    participant(3) := 'Person 3'; p_email(3) := 'p3@company.com';
+    participant(4) := 'Person 4'; p_email(4) := 'p4@company.com';
+    participant(5) := 'Person 5'; p_email(5) := 'p5@company.com';
+    participant(6) := 'Person 6'; p_email(6) := 'p6@company.com';
+    participant(7) := 'Person 7'; p_email(7) := 'p7@company.com';
+    participant(8) := 'Person 8'; p_email(8) := 'p8@company.com';
 
     -- Shuffle the array of participants
     FOR i IN 1..8 LOOP
