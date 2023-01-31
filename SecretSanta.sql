@@ -65,8 +65,6 @@ BEGIN
         */
         dbms_output.put_line(participant(i)
                              || ' will be buying a gift for '
-                             || participant(i MOD 8 + 1)
-                             || ': '
-                             || p_email(i MOD 8 + 1));
+                             || participant(i MOD 8 + 1));
     END LOOP;
 END;
