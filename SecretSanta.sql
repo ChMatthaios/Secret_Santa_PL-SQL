@@ -7,30 +7,27 @@ EXCEPTION
 			RAISE;
 		END IF;
 END;
-
+--------------------------------------------------------------------------------
 CREATE TABLE scs_employees (
     full_name VARCHAR2(100) NOT NULL,
     email     VARCHAR2(100) NOT NULL
 );
-
+--------------------------------------------------------------------------------
 -- Inserts into employees
-INSERT INTO scs_employees ( full_name, email ) VALUES ( 'Person One',   'p.one@company.domain'   );
-INSERT INTO scs_employees ( full_name, email ) VALUES ( 'Person Two',   'p.two@company.domain'   );
-INSERT INTO scs_employees ( full_name, email ) VALUES ( 'Person Three', 'p.three@company.domain' );
-/*add more like this*/
-COMMIT;
-----------------------------------------------------------------------------------------------------------------
-
+BEGIN
+    FOR i IN 1..100 LOOP
+        INSERT INTO scs_employees_test ( full_name, email ) 
+            VALUES ( 'Person ' || i, 'p.' || i || '@company.com' );
+    END LOOP;
+    COMMIT;
+END;
+--------------------------------------------------------------------------------
 DECLARE
-    TYPE employees IS
-        TABLE OF VARCHAR2(100) INDEX BY BINARY_INTEGER;
+    TYPE employees IS TABLE OF VARCHAR2(100) INDEX BY BINARY_INTEGER;
     employee   employees;
-    TYPE emails IS
-        TABLE OF VARCHAR2(100) INDEX BY BINARY_INTEGER;
+    TYPE emails IS TABLE OF VARCHAR2(100) INDEX BY BINARY_INTEGER;
     email      emails;
-	
-    creator    VARCHAR2(100) := 'Your Name';
-    p_cnt      INT           := 1;
+    p_cnt      INT := 1;
     p_size     INT;
     rand_indx  INT;
     temp_emp   VARCHAR2(100);
@@ -38,7 +35,7 @@ DECLARE
 BEGIN
     FOR i IN (
         SELECT full_name, email
-        FROM   scs_employees
+        FROM   scs_employees_test
     ) LOOP
         employee(p_cnt) := i.full_name;
         email(p_cnt) := i.email;
@@ -48,11 +45,9 @@ BEGIN
     p_size := p_cnt - 1;
     FOR i IN 1..p_size LOOP
         rand_indx := dbms_random.value(1, p_size);
-		
         temp_emp := employee(i);
         employee(i) := employee(rand_indx);
         employee(rand_indx) := temp_emp;
-		
         temp_email := email(i);
         email(i) := email(rand_indx);
         email(rand_indx) := temp_email;
@@ -83,7 +78,9 @@ BEGIN
         utl_smtp.close_data(mail_conn);
         utl_smtp.quit(mail_conn);
         */
-        dbms_output.put_line(employee(i) || ' -> ' || employee(i MOD 8 + 1));
+        dbms_output.put_line(lpad(employee(i), 12)
+                             || ' -> '
+                             || lpad(employee(i MOD 100 + 1), 12));
     END LOOP;
 
 END;
