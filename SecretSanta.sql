@@ -1,70 +1,89 @@
-DECLARE
-    -- Declare a table to store the names and email addresses of the participants
-    TYPE participants IS
-        TABLE OF VARCHAR2(100) INDEX BY BINARY_INTEGER;
-    participant      participants;
-    TYPE p_emails IS
-        TABLE OF VARCHAR2(100) INDEX BY BINARY_INTEGER;
-    p_email          p_emails;
-    -- Declare a variable to store a random index
-    random_index1    INT;
-    random_index2    INT;
-    temp_participant VARCHAR2(100);
-    temp_email       VARCHAR2(100);
-    creator          VARCHAR2(100) := 'Your Name';
+-- Drop table employees, if it exists
 BEGIN
-    -- Declare variables to store the names,emails of the participants
-    participant(1) := 'Person 1'; p_email(1) := 'p1@company.com';
-    participant(2) := 'Person 2'; p_email(2) := 'p2@company.com';
-    participant(3) := 'Person 3'; p_email(3) := 'p3@company.com';
-    participant(4) := 'Person 4'; p_email(4) := 'p4@company.com';
-    participant(5) := 'Person 5'; p_email(5) := 'p5@company.com';
-    participant(6) := 'Person 6'; p_email(6) := 'p6@company.com';
-    participant(7) := 'Person 7'; p_email(7) := 'p7@company.com';
-    participant(8) := 'Person 8'; p_email(8) := 'p8@company.com';
+	EXECUTE IMMEDIATE 'DROP TABLE scs_employees';
+EXCEPTION
+	WHEN OTHERS THEN
+		IF SQLCODE != -942 THEN
+			RAISE;
+		END IF;
+END;
 
-    -- Shuffle the array of participants
-    FOR i IN 1..8 LOOP
-        random_index1 := dbms_random.value(1, 8);
-        
-        temp_participant := participant(i);
-        participant(i) := participant(random_index1);
-        participant(random_index1) := temp_participant;
-        
-        temp_email := p_email(i);
-        p_email(i) := p_email(random_index1);
-        p_email(random_index1) := temp_email;
+CREATE TABLE scs_employees (
+    full_name VARCHAR2(100) NOT NULL,
+    email     VARCHAR2(100) NOT NULL
+);
+
+-- Inserts into employees
+INSERT INTO scs_employees ( full_name, email ) VALUES ( 'Person One',   'p.one@company.domain'   );
+INSERT INTO scs_employees ( full_name, email ) VALUES ( 'Person Two',   'p.two@company.domain'   );
+INSERT INTO scs_employees ( full_name, email ) VALUES ( 'Person Three', 'p.three@company.domain' );
+/*add more like this*/
+COMMIT;
+----------------------------------------------------------------------------------------------------------------
+
+DECLARE
+    TYPE employees IS
+        TABLE OF VARCHAR2(100) INDEX BY BINARY_INTEGER;
+    employee   employees;
+    TYPE emails IS
+        TABLE OF VARCHAR2(100) INDEX BY BINARY_INTEGER;
+    email      emails;
+	
+    creator    VARCHAR2(100) := 'Your Name';
+    p_cnt      INT           := 1;
+    p_size     INT;
+    rand_indx  INT;
+    temp_emp   VARCHAR2(100);
+    temp_email VARCHAR2(100);
+BEGIN
+    FOR i IN (
+        SELECT full_name, email
+        FROM   scs_employees
+    ) LOOP
+        employee(p_cnt) := i.full_name;
+        email(p_cnt) := i.email;
+        p_cnt := p_cnt + 1;
     END LOOP;
 
-    -- Print out the secret Santa assignments
-    FOR i IN 1..8 LOOP
-        /*
+    p_size := p_cnt - 1;
+    FOR i IN 1..p_size LOOP
+        rand_indx := dbms_random.value(1, p_size);
+		
+        temp_emp := employee(i);
+        employee(i) := employee(rand_indx);
+        employee(rand_indx) := temp_emp;
+		
+        temp_email := email(i);
+        email(i) := email(rand_indx);
+        email(rand_indx) := temp_email;
+    END LOOP;
+
+    FOR i IN 1..p_size LOOP
+        /**
+		-- https://oracle-base.com/articles/misc/email-from-oracle-plsql
         -- Open a connection to the mail server
         mail_conn := utl_smtp.open_connection('your_mail_server', <port number>);
         -- Identify yourself to the mail server
         utl_smtp.helo(mail_conn, 'your_domain');
-            -- Set the recipient email address
-        recipient := p_email(i);
-            -- Send the email
+        -- Set the recipient email address
+        recipient := email(i);
+        -- Send the email
         utl_smtp.mail(mail_conn, 'secret_santa@your_domain.com');
         utl_smtp.rcpt(mail_conn, recipient);
-        utl_smtp.data(mail_conn, 'Subject: Secret Santa Assignment'
-                              || utl_tcp.crlf || utl_tcp.crlf
-                              || 'Dear '
-                              || participant(i) || ', '
-                              || utl_tcp.crlf || utl_tcp.crlf
-                              || 'You will be buying a gift for '
-                              || participant(i MOD 8 + 1) || '.'
-                              || utl_tcp.crlf || utl_tcp.crlf
-                              || 'Kind regards, '
-                              || utl_tcp.crlf
-                              || creator);
+        utl_smtp.data(mail_conn, 'Subject: Secret Santa ' || utl_tcp.crlf || utl_tcp.crlf
+                                 || 'Dear '
+                                 || employee(i)
+                                 || ', ' || utl_tcp.crlf || utl_tcp.crlf
+                                 || 'You will be buying a gift for '
+                                 || employee(i MOD 8 + 1)
+                                 || '.' || utl_tcp.crlf || utl_tcp.crlf
+                                 || 'Kind regards, ' || utl_tcp.crlf
+                                 || creator);
     
         utl_smtp.close_data(mail_conn);
         utl_smtp.quit(mail_conn);
         */
-        dbms_output.put_line(participant(i)
-                             || ' will be buying a gift for '
-                             || participant(i MOD 8 + 1));
+        dbms_output.put_line(employee(i) || ' -> ' || employee(i MOD 8 + 1));
     END LOOP;
+
 END;
