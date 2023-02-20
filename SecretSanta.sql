@@ -11,6 +11,7 @@ CREATE TABLE scs_employees
 
 INSERT INTO scs_employees (full_name, email)
 VALUES ('Full Name', 'email@example.com');
+/* Add them all manually */
 
 COMMIT;
 
@@ -74,7 +75,7 @@ BEGIN
                                  || utl_tcp.crlf
                                  || utl_tcp.crlf
                                  || 'You will be buying a gift for '
-                                 || employee(i MOD 8 + 1)
+                                 || employee(i MOD p_size + 1)
                                  || '.'
                                  || utl_tcp.crlf
                                  || utl_tcp.crlf
@@ -87,6 +88,6 @@ BEGIN
         */
         DBMS_OUTPUT.put_line ( employee (i) 
                                || ' -> ' 
-                               || employee (i MOD 8 + 1));
+                               || employee (i MOD p_size + 1));
     END LOOP;
 END;
