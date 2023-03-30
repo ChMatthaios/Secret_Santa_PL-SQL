@@ -58,33 +58,25 @@ BEGIN
         /**
         -- https://oracle-base.com/articles/misc/email-from-oracle-plsql
         -- Open a connection to the mail server
-        mail_conn := utl_smtp.open_connection('your_mail_server', <port number>);
+        mail_conn := UTL_SMTP.open_connection ('localhost', 25);
         -- Identify yourself to the mail server
-        utl_smtp.helo(mail_conn, 'your_domain');
-        -- Set the recipient email address
-        recipient := email(i);
+        UTL_SMTP.helo (mail_conn, 'localhost');
         -- Send the email
-        utl_smtp.mail(mail_conn, 'secret_santa@your_domain.com');
-        utl_smtp.rcpt(mail_conn, recipient);
-        utl_smtp.data(mail_conn, 'Subject: Secret Santa '
-                                 || utl_tcp.crlf
-                                 || utl_tcp.crlf
-                                 || 'Dear '
-                                 || employee(i)
-                                 || ', '
-                                 || utl_tcp.crlf
-                                 || utl_tcp.crlf
-                                 || 'You will be buying a gift for '
-                                 || employee(i MOD p_size + 1)
-                                 || '.'
-                                 || utl_tcp.crlf
-                                 || utl_tcp.crlf
-                                 || 'Kind regards, '
-                                 || utl_tcp.crlf
-                                 || creator);
+        UTL_SMTP.mail (mail_conn, 'm.chouliaras@neurocom.gr');
+        UTL_SMTP.rcpt (mail_conn, email (i));
+		UTL_SMTP.open_data (mail_conn);
+        UTL_SMTP.data ( mail_conn, 'Subject: Secret Santa '        
+								   || UTL_TCP.crlf || UTL_TCP.crlf
+								   || 'Dear ' || employee (i) || ', ' 
+								   || UTL_TCP.crlf || UTL_TCP.crlf
+								   || 'You will be buying a gift for ' 
+								   || employee (i MOD 8 + 1) || '.'
+								   || UTL_TCP.crlf || UTL_TCP.crlf
+								   || 'Kind regards, ' 
+								   || UTL_TCP.crlf || creator);
 
-        utl_smtp.close_data(mail_conn);
-        utl_smtp.quit(mail_conn);
+        UTL_SMTP.close_data (mail_conn);
+        UTL_SMTP.quit (mail_conn);
         */
         DBMS_OUTPUT.put_line ( employee (i) 
                                || ' -> ' 
