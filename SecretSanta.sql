@@ -66,14 +66,14 @@ BEGIN
         UTL_SMTP.rcpt (mail_conn, email (i));
 		UTL_SMTP.open_data (mail_conn);
         UTL_SMTP.data ( mail_conn, 'Subject: Secret Santa '        
-								   || UTL_TCP.crlf || UTL_TCP.crlf
-								   || 'Dear ' || employee (i) || ', ' 
-								   || UTL_TCP.crlf || UTL_TCP.crlf
-								   || 'You will be buying a gift for ' 
-								   || employee (i MOD 8 + 1) || '.'
-								   || UTL_TCP.crlf || UTL_TCP.crlf
-								   || 'Kind regards, ' 
-								   || UTL_TCP.crlf || creator);
+				|| UTL_TCP.crlf || UTL_TCP.crlf
+				|| 'Dear ' || employee (i) || ', ' 
+				|| UTL_TCP.crlf || UTL_TCP.crlf
+				|| 'You will be buying a gift for ' 
+				|| employee (i MOD 8 + 1) || '.'
+				|| UTL_TCP.crlf || UTL_TCP.crlf
+				|| 'Kind regards, ' 
+				|| UTL_TCP.crlf || creator);
 
         UTL_SMTP.close_data (mail_conn);
         UTL_SMTP.quit (mail_conn);
