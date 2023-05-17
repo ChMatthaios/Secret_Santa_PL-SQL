@@ -1,16 +1,18 @@
+/* Formatted on 17/05/2023 14:05:33 (QP5 v5.336) */
 -- Create table for employees
 DROP TABLE scs_employees;
 
 CREATE TABLE scs_employees
 (
-    full_name    VARCHAR2 (100) NOT NULL,
-    email        VARCHAR2 (100) NOT NULL
+    full_name VARCHAR2 (100) NOT NULL,
+    email VARCHAR2 (100) NOT NULL
 );
 
 -- Inserts into employees
 
 INSERT INTO scs_employees (full_name, email)
-VALUES ('Full Name', 'email@example.com');
+     VALUES ('Full Name', 'email@example.com');
+
 /* Add them all manually */
 
 COMMIT;
@@ -24,14 +26,14 @@ DECLARE
     TYPE emails IS TABLE OF VARCHAR2 (100)
         INDEX BY BINARY_INTEGER;
 
-    employee     employees;
-    email        emails;
-    p_cnt        INT := 1;
-    p_size       INT;
-    rand_indx    INT;
-    temp_emp     VARCHAR2 (100);
-    temp_email   VARCHAR2 (100);
-    creator      VARCHAR2 (100) := 'Creator''s Name';
+    employee       employees;
+    email          emails;
+    p_cnt          INT := 1;
+    p_size         INT;
+    rand_indx      INT;
+    temp_emp       VARCHAR2 (100);
+    temp_email     VARCHAR2 (100);
+    creator        VARCHAR2 (100) := 'Creator''s Name';
 BEGIN
     FOR i IN (SELECT full_name, email FROM scs_employees)
     LOOP
@@ -55,7 +57,7 @@ BEGIN
 
     FOR i IN 1 .. p_size
     LOOP
-        /**
+        /*
         -- https://oracle-base.com/articles/misc/email-from-oracle-plsql
         -- Open a connection to the mail server
         mail_conn := UTL_SMTP.open_connection ('localhost', 25);
@@ -64,22 +66,30 @@ BEGIN
         -- Send the email
         UTL_SMTP.mail (mail_conn, 'm.chouliaras@neurocom.gr');
         UTL_SMTP.rcpt (mail_conn, email (i));
-		UTL_SMTP.open_data (mail_conn);
-        UTL_SMTP.data ( mail_conn, 'Subject: Secret Santa '        
-				|| UTL_TCP.crlf || UTL_TCP.crlf
-				|| 'Dear ' || employee (i) || ', ' 
-				|| UTL_TCP.crlf || UTL_TCP.crlf
-				|| 'You will be buying a gift for ' 
-				|| employee (i MOD 8 + 1) || '.'
-				|| UTL_TCP.crlf || UTL_TCP.crlf
-				|| 'Kind regards, ' 
-				|| UTL_TCP.crlf || creator);
+        UTL_SMTP.open_data (mail_conn);
+        UTL_SMTP.data (
+            mail_conn,
+               'Subject: Secret Santa '
+            || UTL_TCP.crlf
+            || UTL_TCP.crlf
+            || 'Dear '
+            || employee (i)
+            || ', '
+            || UTL_TCP.crlf
+            || UTL_TCP.crlf
+            || 'You will be buying a gift for '
+            || employee (i MOD 8 + 1)
+            || '.'
+            || UTL_TCP.crlf
+            || UTL_TCP.crlf
+            || 'Kind regards, '
+            || UTL_TCP.crlf
+            || creator);
 
         UTL_SMTP.close_data (mail_conn);
         UTL_SMTP.quit (mail_conn);
         */
-        DBMS_OUTPUT.put_line ( employee (i) 
-                               || ' -> ' 
-                               || employee (i MOD p_size + 1));
+        DBMS_OUTPUT.put_line (
+            employee (i) || ' -> ' || employee (i MOD p_size + 1));
     END LOOP;
 END;
